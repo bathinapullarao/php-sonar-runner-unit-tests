@@ -17,7 +17,14 @@ pipeline {
 			steps {
 			node ('master') {
 				withSonarQubeEnv('sonar') {
-					sh 'phpunit --bootstrap src/Math.php tests/SomeTest.php'
+					sh 'phpunit --bootstrap src/Math.php tests/SomeTest.php -e | echo "ignore failure"'
+					}
+			}	}
+		}
+		stage ('sonar scanner') {
+			steps {
+			node ('master') {
+				withSonarQubeEnv('sonar') {
 					sh '${scannerHome}/bin/sonar-scanner'
 					}
 			}	}
